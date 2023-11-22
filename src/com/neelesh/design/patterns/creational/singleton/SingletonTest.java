@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.Constructor;
 
 public class SingletonTest {
 
@@ -30,7 +31,8 @@ public class SingletonTest {
 
         // Check for Serialization and Deserialization of Singleton beans
         try{
-            checkSerializationAndDeserialization(object1);
+//            checkSerializationAndDeserialization(object1);
+            checkForReflectionAPI();
         }catch (Exception e){
             System.out.println("Exception: " + e.getMessage());
         }
@@ -88,5 +90,18 @@ public class SingletonTest {
 
         System.out.println("Before serializing: " + object1.hashCode());
         System.out.println("After de-serializing: " + deserializedObject.hashCode());
+    }
+
+    private static void checkForReflectionAPI() throws Exception{
+        Constructor[] constructors = SerializationSafeSingleton.class.getDeclaredConstructors();
+        Constructor constructor = constructors[0];
+        constructor.setAccessible(true);
+
+        SerializationSafeSingleton s1 = (SerializationSafeSingleton) constructor.newInstance();
+        SerializationSafeSingleton s2 = (SerializationSafeSingleton) constructor.newInstance();
+
+        if(s1 != s2) {
+            System.out.println("Constructor is now exposed so it's not a singleton behaviour");
+        }
     }
 }
