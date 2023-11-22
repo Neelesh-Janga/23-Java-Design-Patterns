@@ -21,18 +21,18 @@ public class SingletonTest {
 //        ThreadSafeSingleton object1 = ThreadSafeSingleton.getInstance();
 //        ThreadSafeSingleton object2 = ThreadSafeSingleton.getInstance();
 
-        SerializationSafeSingleton object1 = SerializationSafeSingleton.getInstance();
-        SerializationSafeSingleton object2 = SerializationSafeSingleton.getInstance();
+//        SerializationSafeSingleton object1 = SerializationSafeSingleton.getInstance();
+//        SerializationSafeSingleton object2 = SerializationSafeSingleton.getInstance();
 
-        if(object1 == object2)
-            System.out.println("Both objects are same before serializing");
-        else
-            System.out.println("Both objects are different before serializing");
+//        if(object1 == object2)
+//            System.out.println("Both objects are same before serializing");
+//        else
+//            System.out.println("Both objects are different before serializing");
 
-        // Check for Serialization and Deserialization of Singleton beans
         try{
 //            checkSerializationAndDeserialization(object1);
-            checkForReflectionAPI();
+//            checkForReflectionAPI();
+            checkForReflectionAPIV1();
         }catch (Exception e){
             System.out.println("Exception: " + e.getMessage());
         }
@@ -103,5 +103,20 @@ public class SingletonTest {
         if(s1 != s2) {
             System.out.println("Constructor is now exposed so it's not a singleton behaviour");
         }
+    }
+
+    private static void checkForReflectionAPIV1() throws Exception{
+        Constructor[] constructors = EnumSingleton.class.getDeclaredConstructors();
+        Constructor constructor = constructors[0];
+        constructor.setAccessible(true);
+
+        try{
+            EnumSingleton s1 = (EnumSingleton) constructor.newInstance();
+            EnumSingleton s2 = (EnumSingleton) constructor.newInstance();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        EnumSingleton.ENUM_SINGLETON_INSTANCE.display();
     }
 }
