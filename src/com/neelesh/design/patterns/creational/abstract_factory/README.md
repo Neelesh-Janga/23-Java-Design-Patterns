@@ -1,3 +1,6 @@
+**Link to Medium Post:** <a href = "https://medium.com/@Neelesh-Janga/abstract-factory-pattern-in-java-a-comprehensive-guide-560d9016a92b">Abstract Factory Pattern in Java</a>
+<hr>
+
 # Abstract Factory Pattern in Java: A Comprehensive Guide
 
 ## Introduction to Design Patterns
