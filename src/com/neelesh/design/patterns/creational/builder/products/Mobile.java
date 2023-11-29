@@ -21,17 +21,6 @@ public class Mobile {
         this.network = network;
     }
 
-    public Mobile(String color, boolean isWaterResistant, boolean hasScreenProtection, Battery battery,
-                  Camera camera, Display display, Network network) {
-        this.color = color;
-        this.isWaterResistant = isWaterResistant;
-        this.hasScreenProtection = hasScreenProtection;
-        this.battery = battery;
-        this.camera = camera;
-        this.display = display;
-        this.network = network;
-    }
-
     public String getColor() {
         return color;
     }
