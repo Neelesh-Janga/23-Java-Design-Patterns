@@ -23,7 +23,7 @@ public class IOS extends Mobile {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof IOS) && super.equals(obj)) return false;
+        if (!(obj instanceof IOS) && !super.equals(obj)) return false;
         IOS ios = (IOS) obj;
         return super.equals(ios) && iOSVersion == ios.iOSVersion && iOSCodeName.equals(ios.iOSCodeName);
     }
