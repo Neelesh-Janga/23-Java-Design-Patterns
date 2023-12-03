@@ -1,3 +1,6 @@
+**Link to Medium Post:** <a href = "https://medium.com/@Neelesh-Janga/prototype-design-pattern-in-java-a-comprehensive-guide-445fa197b984">Prototype Design Pattern in Java</a>
+<hr>
+
 # Prototype Design Pattern Overview
 <img alt="" class="bg kr md c" loading="eager" role="presentation" src="https://miro.medium.com/v2/resize:fit:1000/1*ybZjxu8bvjB1kl74F9kIiA.png">
 
