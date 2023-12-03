@@ -3,7 +3,7 @@ package com.neelesh.design.patterns.creational.prototype;
 import com.neelesh.design.patterns.creational.prototype.components.Android;
 import com.neelesh.design.patterns.creational.prototype.components.IOS;
 
-public abstract class PrototypeTest {
+public class PrototypeTest {
 
     public static void main(String[] args) {
         generateData();
