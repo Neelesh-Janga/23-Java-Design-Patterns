@@ -3,6 +3,8 @@
 
 # Builder Pattern in Java: A Comprehensive Guide
 
+<img alt="" class="bg kr md c" loading="eager" role="presentation" src="https://miro.medium.com/v2/resize:fit:1000/1*XTJHBhqiyAigAMpVzR7XWA.png">
+
 ## Introduction
 
 In software design, creating complex objects with many configuration options can be a challenging task. The Builder pattern addresses this challenge by separating the construction of a complex object from its representation, allowing the same construction process to create different representations. This article explores the Builder pattern in Java, its advantages, disadvantages, and practical use cases.
@@ -26,6 +28,8 @@ The Builder pattern is a creational design pattern that provides a solution to t
     - Builders often promote immutability by constructing the final object only when the build process is complete. This ensures that the object's state cannot be changed after creation, enhancing thread safety and predictability.
 
 ## Implementation of the Builder Pattern
+
+<img alt="" class="bg kr md c" loading="eager" role="presentation" src="https://miro.medium.com/v2/resize:fit:700/1*tiTL6HVx-La0bu6ob6dgMw.png">
 
 ### Mobile Class
 The `Mobile` class represents the complex object we want to build. It contains various components such as Battery, Camera, Display, and Network.
