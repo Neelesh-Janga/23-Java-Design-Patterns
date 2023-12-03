@@ -3,6 +3,8 @@
 
 # Abstract Factory Pattern in Java: A Comprehensive Guide
 
+<img alt="" class="bg kr md c" loading="eager" role="presentation" src="https://miro.medium.com/v2/resize:fit:1000/1*BC3SyGB1NzMbG9VT1SFsig.png">
+
 ## Introduction to Design Patterns
 
 Design patterns are reusable solutions to common problems that occur during software development. They provide a way to solve issues in a flexible and elegant manner, making code more maintainable and scalable. One such design pattern is the Abstract Factory Pattern, which falls under the category of creational design patterns.
@@ -30,6 +32,8 @@ The Abstract Factory Pattern provides an interface for creating families of rela
 Let's delve into a practical example of the Abstract Factory Pattern using Java. The provided code demonstrates a mobile phone manufacturing scenario where different components, such as the camera and display, are created based on the type of mobile device (iOS or Android).
 
 #### Code Overview
+
+<img alt="" class="bg kr md c" loading="eager" role="presentation" src="https://miro.medium.com/v2/resize:fit:1000/1*04KXuL40gOiAdXtyKXgdLg.png">
 
 - **Interfaces:** Two interfaces, `ICamera` and `IDisplay`, define the abstract product types for the camera and display components.
 
