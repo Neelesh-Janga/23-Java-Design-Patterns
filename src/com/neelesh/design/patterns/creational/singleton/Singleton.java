@@ -2,7 +2,9 @@ package com.neelesh.design.patterns.creational.singleton;
 
 public class Singleton {
     private static Singleton singletonInstance = null;
-    private Singleton(){}
+
+    private Singleton() {
+    }
 
     public static Singleton getInstance() {
         if (singletonInstance == null) {
