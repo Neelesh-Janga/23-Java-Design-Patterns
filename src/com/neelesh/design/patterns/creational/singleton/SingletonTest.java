@@ -1,5 +1,7 @@
 package com.neelesh.design.patterns.creational.singleton;
 
+import com.neelesh.design.patterns.creational.singleton.multithreading.MyThread;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
@@ -17,9 +19,6 @@ public class SingletonTest {
         System.out.println("*** Eager Singleton ***");
         eagerSingletonTest();
 
-        System.out.println("*** Thread-Safe Singleton ***");
-        threadSafeSingletonTest();
-
         System.out.println("*** Serialization-Safe Singleton ***");
         serializationSafeSingletonTest();
 
@@ -28,6 +27,9 @@ public class SingletonTest {
 
         System.out.println("*** Testing for proper Reflection API Vulnerability for Enum Singleton ***");
         enumReflectionAPITest();
+
+        System.out.println("*** Thread-Safe Singleton ***");
+        threadSafeSingletonTest();
     }
 
     private static void lazySingletonTest() {
@@ -75,43 +77,12 @@ public class SingletonTest {
         ThreadSafeSingleton object2 = ThreadSafeSingleton.getInstance();
 
         if (object1 == object2)
-            System.out.println("Thread-Safe Singleton - Both objects are same");
+            System.out.println("Thread-Safe Singleton - Both objects are same\n");
         else
-            System.out.println("Thread-Safe Singleton - Both objects are different");
+            System.out.println("Thread-Safe Singleton - Both objects are different\n");
 
-        System.out.print("Testing for proper Serialization and De-Serialization of Thread-Safe Singleton: ");
-        try {
-            checkSerializationAndDeserialization(object1);
-        } catch (Exception e) {
-            System.out.println("Failed to reconstruct object using De-Serialization\n");
-        }
-    }
-
-    private static void checkSerializationAndDeserialization(ThreadSafeSingleton singleton) throws Exception {
-        // Serializing singleton to ThreadSafeSingleton.obj
-        ObjectOutputStream objectOutputStream =
-                new ObjectOutputStream(new FileOutputStream("src/com/neelesh/design/patterns/creational/singleton/serialized_objects/ThreadSafeSingleton.obj"));
-
-        objectOutputStream.writeObject(singleton);
-
-        objectOutputStream.close();
-
-        // De-Serializing singleton from ThreadSafeSingleton.obj
-        ObjectInputStream objectInputStream =
-                new ObjectInputStream(new FileInputStream("src/com/neelesh/design/patterns/creational/singleton/serialized_objects/ThreadSafeSingleton.obj"));
-
-        ThreadSafeSingleton deserializedObject = (ThreadSafeSingleton) objectInputStream.readObject();
-
-        objectInputStream.close();
-
-        // Verification
-        if (deserializedObject.hashCode() != singleton.hashCode())
-            System.out.println("Serialized and Deserialized objects are two different copies after deserializing");
-        else
-            System.out.println("Serialized and Deserialized objects are same copies after deserializing");
-
-        System.out.println("Before serializing: " + singleton.hashCode());
-        System.out.println("After de-serializing: " + deserializedObject.hashCode() + "\n");
+        // Test for thread safety - Uncomment the below line and check for "Thread Entry Count". If each thread has count = 1, then it's Thread safe
+//        MyThread.execute();
     }
 
     private static void serializationSafeSingletonTest() {
