@@ -1,8 +1,6 @@
 package com.neelesh.design.patterns.creational.singleton;
 
-import java.io.Serializable;
-
-public class ThreadSafeSingleton implements Serializable {
+public class ThreadSafeSingleton {
     public static volatile int threadEntryCount = 0;
     private static ThreadSafeSingleton singletonInstance;
 
