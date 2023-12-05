@@ -7,61 +7,88 @@ import java.io.ObjectOutputStream;
 import java.lang.reflect.Constructor;
 
 public class SingletonTest {
+    private static final String className = "com.neelesh.design.patterns.creational.singleton.";
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
+
+        System.out.println("*** Lazy Singleton ***");
+        lazySingletonTest();
+
+        System.out.println("*** Eager Singleton ***");
+        eagerSingletonTest();
+
+        System.out.println("*** Thread-Safe Singleton ***");
+        threadSafeSingletonTest();
+
+        System.out.println("*** Serialization-Safe Singleton ***");
+        serializationSafeSingletonTest();
+
+        System.out.println("*** Testing for proper Reflection API Vulnerability for Serialization-Safe Singleton ***");
+        serializationSafeSingletonReflectionAPITest();
+
+        System.out.println("*** Testing for proper Reflection API Vulnerability for Enum Singleton ***");
+        enumReflectionAPITest();
+    }
+
+    public static void lazySingletonTest() {
+        System.out.print("Trying to load the class and see if instance is created: ");
+        try {
+            // Attempt to load the class
+            Class.forName(className + "Singleton");
+            System.out.println("Class '" + className + "Singleton" + "' is loaded.");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Class '" + className + "Singleton" + "' is not loaded.");
+        }
+
+        System.out.print("Creating Lazy Singleton Objects: ");
         Singleton object1 = Singleton.getInstance();
         Singleton object2 = Singleton.getInstance();
 
         if (object1 == object2)
-            System.out.println("Lazy Singleton - Both objects are same");
+            System.out.println("Lazy Singleton - Both objects are same\n");
         else
-            System.out.println("Lazy Singleton - Both objects are different");
+            System.out.println("Lazy Singleton - Both objects are different\n");
 
-        EagerSingleton object3 = EagerSingleton.getInstance();
-        EagerSingleton object4 = EagerSingleton.getInstance();
+    }
 
-        if (object3 == object4)
-            System.out.println("Eager Singleton - Both objects are same");
+    public static void eagerSingletonTest() {
+        System.out.print("Trying to load the class and see if instance is created: ");
+        try {
+            // Attempt to load the class
+            Class.forName(className + "EagerSingleton");
+            System.out.println("Class '" + className + "EagerSingleton" + "' is loaded.");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Class '" + className + "EagerSingleton" + "' is not loaded.");
+        }
+
+        EagerSingleton object1 = EagerSingleton.getInstance();
+        EagerSingleton object2 = EagerSingleton.getInstance();
+
+        if (object1 == object2)
+            System.out.println("Eager Singleton - Both objects are same\n");
         else
-            System.out.println("Eager Singleton - Both objects are different");
+            System.out.println("Eager Singleton - Both objects are different\n");
+    }
 
-        ThreadSafeSingleton object5 = ThreadSafeSingleton.getInstance();
-        ThreadSafeSingleton object6 = ThreadSafeSingleton.getInstance();
+    public static void threadSafeSingletonTest() {
+        ThreadSafeSingleton object1 = ThreadSafeSingleton.getInstance();
+        ThreadSafeSingleton object2 = ThreadSafeSingleton.getInstance();
 
-        if (object5 == object6)
+        if (object1 == object2)
             System.out.println("Thread-Safe Singleton - Both objects are same");
         else
             System.out.println("Thread-Safe Singleton - Both objects are different");
 
-        SerializationSafeSingleton object7 = SerializationSafeSingleton.getInstance();
-        SerializationSafeSingleton object8 = SerializationSafeSingleton.getInstance();
-
-        if (object7 == object8)
-            System.out.println("Serialization-Safe Singleton - Both objects are same");
-        else
-            System.out.println("Serialization-Safe Singleton - Both objects are different");
-
-        System.out.println("\n*** Testing for proper Serialization and De-Serialization of Thread-Safe Singleton***");
+        System.out.print("Testing for proper Serialization and De-Serialization of Thread-Safe Singleton: ");
         try {
-            checkSerializationAndDeserialization(object5);
+            checkSerializationAndDeserialization(object1);
         } catch (Exception e) {
             System.out.println("Failed to reconstruct object using De-Serialization\n");
-        }
-
-        System.out.println("*** Testing for proper Serialization and De-Serialization of Serialization-Safe & ReflectionAPI-Safe Singleton***");
-        try {
-            checkSerializationAndDeserialization(object7);
-
-            System.out.println("\n*** Testing for proper Reflection API Vulnerability ***");
-            checkForReflectionAPI();
-            checkForReflectionAPIV1();
-        } catch (Exception e) {
-            System.out.println("Exception: " + e.getMessage());
         }
     }
 
     private static void checkSerializationAndDeserialization(ThreadSafeSingleton singleton) throws Exception {
-        // Serializing singleton to objThreadSafeSingletonect1.obj
+        // Serializing singleton to ThreadSafeSingleton.obj
         ObjectOutputStream objectOutputStream =
                 new ObjectOutputStream(new FileOutputStream("src/com/neelesh/design/patterns/creational/singleton/serialized_objects/ThreadSafeSingleton.obj"));
 
@@ -84,7 +111,25 @@ public class SingletonTest {
             System.out.println("Serialized and Deserialized objects are same copies after deserializing");
 
         System.out.println("Before serializing: " + singleton.hashCode());
-        System.out.println("After de-serializing: " + deserializedObject.hashCode());
+        System.out.println("After de-serializing: " + deserializedObject.hashCode() + "\n");
+    }
+
+    public static void serializationSafeSingletonTest() {
+        SerializationSafeSingleton object1 = SerializationSafeSingleton.getInstance();
+        SerializationSafeSingleton object2 = SerializationSafeSingleton.getInstance();
+
+        if (object1 == object2)
+            System.out.println("Serialization-Safe Singleton - Both objects are same");
+        else
+            System.out.println("Serialization-Safe Singleton - Both objects are different");
+
+
+        System.out.print("Testing for proper Serialization and De-Serialization of Serialization-Safe Singleton: ");
+        try {
+            checkSerializationAndDeserialization(object1);
+        } catch (Exception e) {
+            System.out.println("Exception: " + e.getMessage());
+        }
     }
 
     private static void checkSerializationAndDeserialization(SerializationSafeSingleton singleton) throws Exception {
@@ -110,11 +155,11 @@ public class SingletonTest {
         else
             System.out.println("Serialized and Deserialized objects are same copies after deserializing");
 
-        System.out.println("Before serializing: " + singleton.hashCode());
-        System.out.println("After de-serializing: " + deserializedObject.hashCode());
+        System.out.println("Object HashCode before serializing: " + singleton.hashCode());
+        System.out.println("Object HashCode after de-serializing: " + deserializedObject.hashCode() + "\n");
     }
 
-    private static void checkForReflectionAPI() throws Exception {
+    private static void serializationSafeSingletonReflectionAPITest() throws Exception {
         Constructor[] constructors = SerializationSafeSingleton.class.getDeclaredConstructors();
         Constructor constructor = constructors[0];
         constructor.setAccessible(true);
@@ -123,11 +168,13 @@ public class SingletonTest {
         SerializationSafeSingleton s2 = (SerializationSafeSingleton) constructor.newInstance();
 
         if (s1 != s2) {
-            System.out.println("Constructor is now exposed so it's not a singleton behaviour");
+            System.out.println("Private Constructor is now exposed. Singleton behaviour is collapsed\n");
+        } else {
+            System.out.println("Private Constructor is not exposed. Singleton behaviour preserved\n");
         }
     }
 
-    private static void checkForReflectionAPIV1() throws Exception {
+    private static void enumReflectionAPITest() throws Exception {
         Constructor[] constructors = EnumSingleton.class.getDeclaredConstructors();
         Constructor constructor = constructors[0];
         constructor.setAccessible(true);
