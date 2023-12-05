@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 public class SingletonTest {
     private static final String className = "com.neelesh.design.patterns.creational.singleton.";
@@ -20,11 +21,8 @@ public class SingletonTest {
         System.out.println("*** Serialization-Safe Singleton ***");
         serializationSafeSingletonTest();
 
-        System.out.println("*** Testing for proper Reflection API Vulnerability for Serialization-Safe Singleton ***");
-        serializationSafeSingletonReflectionAPITest();
-
-        System.out.println("*** Testing for proper Reflection API Vulnerability for Enum Singleton ***");
-        enumReflectionAPITest();
+        System.out.println("*** Enum Singleton ***");
+        enumSingletonTest();
 
         System.out.println("*** Thread-Safe Singleton ***");
         threadSafeSingletonTest();
@@ -75,9 +73,9 @@ public class SingletonTest {
         ThreadSafeSingleton object2 = ThreadSafeSingleton.getInstance();
 
         if (object1 == object2)
-            System.out.println("Thread-Safe Singleton - Both objects are same\n");
+            System.out.println("Thread-Safe Singleton - Both objects are same");
         else
-            System.out.println("Thread-Safe Singleton - Both objects are different\n");
+            System.out.println("Thread-Safe Singleton - Both objects are different");
 
         // Test for thread safety - Uncomment the below line and check for "Thread Entry Count". If each thread has count = 1, then it's Thread safe
 //        MyThread.execute();
@@ -93,57 +91,32 @@ public class SingletonTest {
             System.out.println("Serialization-Safe Singleton - Both objects are different");
 
 
-        System.out.print("Testing for proper Serialization and De-Serialization of Serialization-Safe Singleton: ");
+        System.out.print("Serialization and De-Serialization of Serialization-Safe Singleton: ");
         try {
             checkSerializationAndDeserialization(object1);
         } catch (Exception e) {
             System.out.println("Exception: " + e.getMessage());
         }
-    }
 
-    private static void checkSerializationAndDeserialization(SerializationSafeSingleton singleton) throws Exception {
-        // Serializing singleton to SerializationSafeSingleton.obj
-        ObjectOutputStream objectOutputStream =
-                new ObjectOutputStream(new FileOutputStream("src/com/neelesh/design/patterns/creational/singleton/serialized_objects/SerializationSafeSingleton.obj"));
-
-        objectOutputStream.writeObject(singleton);
-
-        objectOutputStream.close();
-
-        // De-Serializing singleton from SerializationSafeSingleton.obj
-        ObjectInputStream objectInputStream =
-                new ObjectInputStream(new FileInputStream("src/com/neelesh/design/patterns/creational/singleton/serialized_objects/SerializationSafeSingleton.obj"));
-
-        SerializationSafeSingleton deserializedObject = (SerializationSafeSingleton) objectInputStream.readObject();
-
-        objectInputStream.close();
-
-        // Verification
-        if (deserializedObject.hashCode() != singleton.hashCode())
-            System.out.println("Serialized and Deserialized objects are two different copies after deserializing");
-        else
-            System.out.println("Serialized and Deserialized objects are same copies after deserializing");
-
-        System.out.println("Object HashCode before serializing: " + singleton.hashCode());
-        System.out.println("Object HashCode after de-serializing: " + deserializedObject.hashCode() + "\n");
-    }
-
-    private static void serializationSafeSingletonReflectionAPITest() throws Exception {
+        System.out.print("Reflection API Attack: ");
         Constructor[] constructors = SerializationSafeSingleton.class.getDeclaredConstructors();
         Constructor constructor = constructors[0];
         constructor.setAccessible(true);
 
-        SerializationSafeSingleton s1 = (SerializationSafeSingleton) constructor.newInstance();
-        SerializationSafeSingleton s2 = (SerializationSafeSingleton) constructor.newInstance();
+        try {
+            SerializationSafeSingleton s1 = (SerializationSafeSingleton) constructor.newInstance();
+            SerializationSafeSingleton s2 = (SerializationSafeSingleton) constructor.newInstance();
 
-        if (s1 != s2) {
-            System.out.println("Private Constructor is now exposed. Singleton behaviour is collapsed\n");
-        } else {
-            System.out.println("Private Constructor is not exposed. Singleton behaviour preserved\n");
+            if (s1 != s2)
+                System.out.println("Private Constructor is now exposed. Singleton behaviour is collapsed\n");
+            else
+                System.out.println("Private Constructor is not exposed. Singleton behaviour preserved\n");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 
-    private static void enumReflectionAPITest() throws Exception {
+    private static void enumSingletonTest() {
         System.out.print("Trying to load the class and see if instance is created: ");
         try {
             // Attempt to load the class
@@ -153,6 +126,23 @@ public class SingletonTest {
             System.out.println("Class '" + className + "EnumSingleton" + "' is not loaded.");
         }
 
+        EnumSingleton object1 = EnumSingleton.ENUM_SINGLETON_INSTANCE;
+        EnumSingleton object2 = EnumSingleton.ENUM_SINGLETON_INSTANCE;
+
+        if (object1 == object2)
+            System.out.println("Enum Singleton - Both objects are same");
+        else
+            System.out.println("Enum Singleton - Both objects are different");
+
+
+        System.out.print("Serialization and De-Serialization of Enum Singleton: ");
+        try {
+            checkSerializationAndDeserialization(object1);
+        } catch (Exception e) {
+            System.out.println("Exception: " + e.getMessage());
+        }
+
+        System.out.print("Reflection API Attack: ");
         Constructor[] constructors = EnumSingleton.class.getDeclaredConstructors();
         Constructor constructor = constructors[0];
         constructor.setAccessible(true);
@@ -165,5 +155,59 @@ public class SingletonTest {
         }
 
         EnumSingleton.ENUM_SINGLETON_INSTANCE.display();
+    }
+
+    private static void checkSerializationAndDeserialization(SerializationSafeSingleton singleton) throws Exception {
+        // Serializing singleton to SerializedObject.obj
+        ObjectOutputStream objectOutputStream =
+                new ObjectOutputStream(new FileOutputStream("src/com/neelesh/design/patterns/creational/singleton/serialized_objects/SerializedObject.obj"));
+
+        objectOutputStream.writeObject(singleton);
+
+        objectOutputStream.close();
+
+        // De-Serializing singleton from SerializationSafeSingleton.obj
+        ObjectInputStream objectInputStream =
+                new ObjectInputStream(new FileInputStream("src/com/neelesh/design/patterns/creational/singleton/serialized_objects/SerializedObject.obj"));
+
+        SerializationSafeSingleton deserializedObject = (SerializationSafeSingleton) objectInputStream.readObject();
+
+        objectInputStream.close();
+
+        // Verification
+        if (deserializedObject.hashCode() != singleton.hashCode())
+            System.out.println("Serialized and Deserialized objects are two different copies after deserializing");
+        else
+            System.out.println("Serialized and Deserialized objects are same copies after deserializing");
+
+        System.out.println("Object HashCode before serializing: " + singleton.hashCode());
+        System.out.println("Object HashCode after de-serializing: " + deserializedObject.hashCode());
+    }
+
+    private static void checkSerializationAndDeserialization(EnumSingleton singleton) throws Exception {
+        // Serializing singleton to SerializedObject.obj
+        ObjectOutputStream objectOutputStream =
+                new ObjectOutputStream(new FileOutputStream("src/com/neelesh/design/patterns/creational/singleton/serialized_objects/SerializedObject.obj"));
+
+        objectOutputStream.writeObject(singleton);
+
+        objectOutputStream.close();
+
+        // De-Serializing singleton from SerializedObject.obj
+        ObjectInputStream objectInputStream =
+                new ObjectInputStream(new FileInputStream("src/com/neelesh/design/patterns/creational/singleton/serialized_objects/SerializedObject.obj"));
+
+        EnumSingleton deserializedObject = (EnumSingleton) objectInputStream.readObject();
+
+        objectInputStream.close();
+
+        // Verification
+        if (deserializedObject.hashCode() != singleton.hashCode())
+            System.out.println("Serialized and Deserialized objects are two different copies after deserializing");
+        else
+            System.out.println("Serialized and Deserialized objects are same copies after deserializing");
+
+        System.out.println("Object HashCode before serializing: " + singleton.hashCode());
+        System.out.println("Object HashCode after de-serializing: " + deserializedObject.hashCode());
     }
 }
