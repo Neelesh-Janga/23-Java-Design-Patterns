@@ -1,7 +1,5 @@
 package com.neelesh.design.patterns.creational.singleton;
 
-import com.neelesh.design.patterns.creational.singleton.multithreading.MyThread;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
