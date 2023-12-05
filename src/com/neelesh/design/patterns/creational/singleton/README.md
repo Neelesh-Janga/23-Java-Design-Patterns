@@ -1,7 +1,8 @@
 **Link to Medium Post:** <a href = "https://medium.com/@Neelesh-Janga/f3d1abe6fe8d">Singleton Design Patterns in Java</a>
 <hr>
 
-## Singleton Design Patterns in Java: A Comprehensive Guide
+
+## Singleton Design Patterns in Java
 
 ![](https://cdn-images-1.medium.com/max/3840/1*AVa2JxCBjM_RuBCD0gZgwg.png)
 
@@ -11,20 +12,24 @@ The [Singleton Design Pattern](https://en.wikipedia.org/wiki/Singleton_pattern) 
 
 ## Implementing Singleton Design Pattern in 5 ways
 
-![](https://cdn-images-1.medium.com/max/3032/1*lyqBZZvpW0g_PeiQpac8pg.png)
+![](https://cdn-images-1.medium.com/max/3180/1*aKtgKaGyl4sDrzOosFGblQ.png)
 
 ### 1. Lazy Initialization — Basic Singleton
-  * The Singleton class implements lazy initialization. It creates an instance of the class only if the instance is not already created. This is done in the getInstance method.
-  * **Pro:** Simple implementation & lazy loading.
-  * **Con:** Not Thread-Safe.
+
+* The Singleton class implements lazy initialization. It creates an instance of the class only if the instance is not already created. This is done in the getInstance method.
+
+* **Pros:** Simple implementation & lazy loading.
+
+* **Cons:** Not thread-safe, not clone-safe and susceptible to reflection APIs..
 
 ### 2. Eager Initialization — Eager Singleton
 
 * The EagerSingleton implementation creates an instance of the class when the class is loaded into the memory. It is straightforward to implement but has the drawback of being created even if the instance is not needed.
 
-* **Pro:** Simple and straightforward, Thread-Safe.
+* **Pros:** Simple and straightforward, Thread-Safe.
 
-* **Con:** Resource Consumption — The instance is created even if it’s not used, which might be inefficient.
+* **Cons:** Not clone-safe, susceptible to reflection APIs, Resource Consumption
+>  Instance is created during class loading phase which might be inefficient. This means that as soon as the class is loaded into the JVM, an instance of the EagerSingletonclass is created, regardless of whether it is immediately needed or not. The potential drawback of this approach is that it may lead to resource consumption, especially if the EagerSingletonobject is resource-intensive or if the application does not always require the singleton instance at the beginning. This can result in unnecessary resource utilization and may impact the performance of the application.
 
 ### 3. Thread-Safe Singleton
 
@@ -32,54 +37,62 @@ The [Singleton Design Pattern](https://en.wikipedia.org/wiki/Singleton_pattern) 
 
 * Also using Double-Checked locking ensures thread safety while minimizing synchronization overhead.
 
-* **Pro:** Thread-safe & lazy initialization.
+* The threadEntryCount volatile variable is used to track how many times the singleton is accessed in a multithreaded environment (Note: This is done as a part of testing the model).
 
-* **Con:** Synchronization overhead.
+* **Pros:** Thread-safe & lazy initialization.
+
+* **Cons:** Synchronization overhead, not clone-safe and susceptible to reflection APIs.
 
 ### 4. Serialization-Safe Singleton
 
 * The SerializationSafeSingleton class ensures that the singleton contract is maintained during serialization and de-serialization. The readResolve method is used to return the existing instance during de-serialization.
-* **Pro:** Thread-safe & handles Serialization.
-* **Con:** Complexity — Double-checked locking introduces complexity.
+
+* **Pros:** Thread-safe & handles Serialization.
+
+* **Cons:** Complexity — Double-checked locking introduces complexity, not clone-safe and susceptible to reflection APIs.
 
 ### 5. Enum Singleton
+
 * The EnumSingleton implementation leverages Java enums to create a singleton. Enums in Java are inherently serializable and thread-safe.
-* **Pro:** Thread-safe, handles Serialization & immune to Reflection APIs.
-* **Con:** Limited extensibility — Enums cannot be subclassed or extended.
+
+* Note: The purpose of default constructor here is to check for eager instantiation of the EnumSingleton class (done as a part of testing).
+
+* **Pros:** Thread-safe, handles Serialization, clone-safe & immune to Reflection APIs.
+
+* **Cons:** Not Lazy-Loaded.
 
 ## Testing and Demonstrations
-The SingletonTest class serves as a comprehensive demonstration and validation suite for various implementations of the Singleton Pattern. Its primary purpose is to showcase the behavior of different singleton instances and to test the robustness of these implementations under various scenarios.
+
+The SingletonTest class serves as a detailed demonstration and validation suite for various implementations of the Singleton Pattern. Its primary purpose is to showcase the behavior of different singleton instances and to test the robustness of these implementations under various scenarios.
 
 Here’s a brief overview of what SingletonTest is doing:
-1. Lazy Singleton Testing:
-    * Creates instances of the lazy-initialized Singleton class.
-    * Checks whether two instances are the same, demonstrating that only one instance is created.
 
-2. Eager Singleton Testing:
-   * Creates instances of the eagerly-initialized EagerSingleton class.
-   * Verifies that the instances are identical, illustrating the singleton pattern’s guarantee of a single instance.
+* lazySingletonTest(): Demonstrates lazy singleton behavior.
 
-3. Thread-Safe Singleton Testing:
-   * Utilizes the ThreadSafeSingleton class to create instances.
-   * Ensures that thread safety is maintained by confirming that multiple threads can’t create separate instances simultaneously.
+* eagerSingletonTest(): Demonstrates eager singleton behavior.
 
-4. Serialization-Safe Singleton Testing:
-   * Creates instances of SerializationSafeSingleton.
-   * Validates that the singleton behavior persists during the process of serialization and de-serialization.
+* serializationSafeSingletonTest(): Tests serialization mechanism and vulnerability of the serialization-safe singleton to reflection API attacks.
 
-5. Serialization and De-serialization Testing:
-   * Specifically focuses on the serialization and de-serialization of the ThreadSafeSingleton and SerializationSafeSingleton instances.
-   * Demonstrates that the de-serialized objects are the same as the original ones, maintaining the singleton contract.
+* enumSingletonTest(): Tests the Enum singleton instances, thread safety, serialization mechanism and vulnerability to reflection API attacks.
 
-6. Reflection API Vulnerability Testing:
-   * Explores potential vulnerabilities to reflection attacks on SerializationSafeSingleton.
-   * Demonstrates how the readResolve method protects against the creation of additional instances during reflection-based instantiation.
+* threadSafeSingletonTest(): Tests thread safety.
 
-7. Enum Singleton Testing:
-   * Creates an instance of EnumSingleton.
-   * Highlights the inherent thread safety, serialization safety, and reflection safety of enum-based singletons.
+### Multithreading Test:
+
+The MyThread, ThreadA, ThreadB, and ThreadC classes simulate a multithreading scenario where multiple threads access the ThreadSafeSingleton class concurrently.
+
+* MyThread class serves as the entry point for the multithreading test.
+
+* Three threads (tA, tB, and tC) are created, each instantiated with different instances of classes implementing the Runnable interface (ThreadA, ThreadB, and ThreadC).
+
+* Each thread is started (start() method is called), and join() is used to ensure that the main thread waits for each of the threads to finish before proceeding.
+
+* Multiple threads concurrently access and create instances of the singleton, and the threadEntryCount variable (volatile) is used to track the number of times the singleton is accessed.
+
+This type of test is essential to ensure that the singleton pattern is implemented correctly and safely in a multithreaded environment. It helps identify potential issues related to race conditions and thread safety.
 
 ## Conclusion
+
 In conclusion, the Singleton Pattern offers a versatile and powerful solution for scenarios where a single, globally accessible instance of a class is essential. Throughout our exploration, we delved into different flavors of the Singleton Pattern, each addressing specific challenges and requirements in its unique way.
 
 The Lazy Initialization (Basic Singleton) is simple and efficient, but its lack of thread safety may pose challenges in multithreaded environments. On the other hand, the Eager Initialization (Eager Singleton) ensures thread safety at the cost of immediate resource consumption. It’s a trade-off between simplicity and resource efficiency.
@@ -95,5 +108,9 @@ As we navigated through these implementations, we witnessed how each addresses s
 The Singleton Pattern, in its various forms, remains a cornerstone in the toolkit of software design patterns. Whether optimizing for resource efficiency, thread safety, or serialization integrity, understanding these variations empowers developers to make informed decisions and craft resilient, maintainable systems. Ultimately, the journey through the Singleton Pattern showcases the importance of adaptability and thoughtful consideration in the pursuit of designing effective and scalable software solutions.
 
 ## Resources
-* **Refactoring Guru** — [https://refactoring.guru/design-patterns/singleton/java/example](https://refactoring.guru/design-patterns/singleton/java/example)
-* **Digital Ocean** — [https://www.digitalocean.com/community/tutorials/java-singleton-design-pattern-best-practices-examples](https://www.digitalocean.com/community/tutorials/java-singleton-design-pattern-best-practices-examples)
+
+1. **GitHub** — [https://github.com/Neelesh-Janga/23-Java-Design-Patterns/tree/main/src/com/neelesh/design/patterns/creational/singleton](https://github.com/Neelesh-Janga/23-Java-Design-Patterns/tree/main/src/com/neelesh/design/patterns/creational/singleton)
+
+2. **Refactoring Guru** — [https://refactoring.guru/design-patterns/singleton/java/example](https://refactoring.guru/design-patterns/singleton/java/example)
+
+3. **Digital Ocean** — [https://www.digitalocean.com/community/tutorials/java-singleton-design-pattern-best-practices-examples](https://www.digitalocean.com/community/tutorials/java-singleton-design-pattern-best-practices-examples)
