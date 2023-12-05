@@ -1,7 +1,9 @@
 package com.neelesh.design.patterns.creational.singleton;
 
-public class ThreadSafeSingleton {
-    private static final long UUID = 1L;
+import java.io.Serializable;
+
+public class ThreadSafeSingleton implements Serializable {
+    public static volatile int threadEntryCount = 0;
     private static ThreadSafeSingleton singletonInstance;
 
     private ThreadSafeSingleton() {
@@ -10,13 +12,12 @@ public class ThreadSafeSingleton {
     public static ThreadSafeSingleton getInstance() {
         if (singletonInstance == null) {
             synchronized (ThreadSafeSingleton.class) {
-                if (singletonInstance == null) singletonInstance = new ThreadSafeSingleton();
+                if (singletonInstance == null) {
+                    threadEntryCount++;
+                    singletonInstance = new ThreadSafeSingleton();
+                }
             }
         }
         return singletonInstance;
-    }
-
-    public static long getUuid() {
-        return UUID;
     }
 }
