@@ -24,4 +24,8 @@ public class SerializationSafeSingleton implements Serializable {
         return singletonInstance;
     }
 
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        throw new CloneNotSupportedException();
+    }
 }

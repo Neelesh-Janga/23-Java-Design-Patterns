@@ -16,4 +16,9 @@ public class ThreadSafeSingleton {
         }
         return singletonInstance;
     }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        throw new CloneNotSupportedException();
+    }
 }
