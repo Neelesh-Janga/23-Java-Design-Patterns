@@ -30,7 +30,7 @@ public class SingletonTest {
         enumReflectionAPITest();
     }
 
-    public static void lazySingletonTest() {
+    private static void lazySingletonTest() {
         System.out.print("Trying to load the class and see if instance is created: ");
         try {
             // Attempt to load the class
@@ -51,7 +51,7 @@ public class SingletonTest {
 
     }
 
-    public static void eagerSingletonTest() {
+    private static void eagerSingletonTest() {
         System.out.print("Trying to load the class and see if instance is created: ");
         try {
             // Attempt to load the class
@@ -70,7 +70,7 @@ public class SingletonTest {
             System.out.println("Eager Singleton - Both objects are different\n");
     }
 
-    public static void threadSafeSingletonTest() {
+    private static void threadSafeSingletonTest() {
         ThreadSafeSingleton object1 = ThreadSafeSingleton.getInstance();
         ThreadSafeSingleton object2 = ThreadSafeSingleton.getInstance();
 
@@ -114,7 +114,7 @@ public class SingletonTest {
         System.out.println("After de-serializing: " + deserializedObject.hashCode() + "\n");
     }
 
-    public static void serializationSafeSingletonTest() {
+    private static void serializationSafeSingletonTest() {
         SerializationSafeSingleton object1 = SerializationSafeSingleton.getInstance();
         SerializationSafeSingleton object2 = SerializationSafeSingleton.getInstance();
 
