@@ -146,6 +146,15 @@ public class SingletonTest {
     }
 
     private static void enumReflectionAPITest() throws Exception {
+        System.out.print("Trying to load the class and see if instance is created: ");
+        try {
+            // Attempt to load the class
+            Class.forName(className + "EnumSingleton");
+            System.out.println("Class '" + className + "EnumSingleton" + "' is loaded.");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Class '" + className + "EnumSingleton" + "' is not loaded.");
+        }
+
         Constructor[] constructors = EnumSingleton.class.getDeclaredConstructors();
         Constructor constructor = constructors[0];
         constructor.setAccessible(true);
