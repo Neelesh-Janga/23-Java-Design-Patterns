@@ -1,19 +1,17 @@
 package com.neelesh.design.patterns.creational.singleton;
 
 public class ThreadSafeSingleton {
-    public static volatile int threadEntryCount = 0;
-    private static ThreadSafeSingleton singletonInstance;
+    public static int threadEntryCount = 0; // Use this field to test multithreading
+    private static volatile ThreadSafeSingleton singletonInstance;
 
     private ThreadSafeSingleton() {
     }
 
     public static ThreadSafeSingleton getInstance() {
-        if (singletonInstance == null) {
-            synchronized (ThreadSafeSingleton.class) {
-                if (singletonInstance == null) {
-                    threadEntryCount++;
-                    singletonInstance = new ThreadSafeSingleton();
-                }
+        synchronized (ThreadSafeSingleton.class) {
+            if (singletonInstance == null) {
+                threadEntryCount++; // Use this field to test multithreading
+                singletonInstance = new ThreadSafeSingleton();
             }
         }
         return singletonInstance;

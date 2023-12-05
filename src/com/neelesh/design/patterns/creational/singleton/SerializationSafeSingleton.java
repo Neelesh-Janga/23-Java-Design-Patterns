@@ -4,16 +4,14 @@ import java.io.Serial;
 import java.io.Serializable;
 
 public class SerializationSafeSingleton implements Serializable {
-    private static SerializationSafeSingleton singletonInstance;
+    private static volatile SerializationSafeSingleton singletonInstance;
 
     private SerializationSafeSingleton() {
     }
 
     public static SerializationSafeSingleton getInstance() {
-        if (singletonInstance == null) {
-            synchronized (SerializationSafeSingleton.class) {
-                if (singletonInstance == null) singletonInstance = new SerializationSafeSingleton();
-            }
+        synchronized (SerializationSafeSingleton.class) {
+            if (singletonInstance == null) singletonInstance = new SerializationSafeSingleton();
         }
         return singletonInstance;
     }
