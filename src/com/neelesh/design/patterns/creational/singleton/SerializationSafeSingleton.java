@@ -4,7 +4,6 @@ import java.io.Serial;
 import java.io.Serializable;
 
 public class SerializationSafeSingleton implements Serializable {
-    private static final long UUID = 1L;
     private static SerializationSafeSingleton singletonInstance;
 
     private SerializationSafeSingleton() {
@@ -27,7 +26,4 @@ public class SerializationSafeSingleton implements Serializable {
         return singletonInstance;
     }
 
-    public static long getUuid() {
-        return UUID;
-    }
 }
