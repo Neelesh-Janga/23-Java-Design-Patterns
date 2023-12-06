@@ -1,6 +1,6 @@
 package com.neelesh.design.patterns.creational.prototype.components;
 
-public abstract class Mobile {
+public abstract class Mobile implements Cloneable{
     public boolean touchScreen;
     public boolean waterResistance;
     public String color;
@@ -11,7 +11,7 @@ public abstract class Mobile {
     public String display;
 
 
-    public abstract Mobile clone();
+    public abstract Mobile clone() throws CloneNotSupportedException;
 
     public Mobile() {
     }
