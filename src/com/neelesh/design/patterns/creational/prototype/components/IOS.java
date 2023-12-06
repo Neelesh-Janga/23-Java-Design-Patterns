@@ -17,7 +17,7 @@ public class IOS extends Mobile {
     }
 
     @Override
-    public Mobile clone() {
+    public Mobile clone() throws CloneNotSupportedException {
         return new IOS(this);
     }
 

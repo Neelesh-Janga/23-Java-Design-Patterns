@@ -5,11 +5,11 @@ import com.neelesh.design.patterns.creational.prototype.components.IOS;
 
 public class PrototypeTest {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CloneNotSupportedException {
         generateData();
     }
 
-    public static void generateData() {
+    public static void generateData() throws CloneNotSupportedException{
         Android oneplus = new Android();
         oneplus.display = "Amoled";
         oneplus.androidCodeName = "Upside Down Cake";
