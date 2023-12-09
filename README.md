@@ -4,21 +4,21 @@ Design patterns are categorized into three main groups: creational, structural, 
 
 ## Creational Design Patterns
 
-### 1. Singleton Pattern
+### 1. [Singleton Pattern](https://medium.com/@Neelesh-Janga/singleton-design-patterns-in-java-a-comprehensive-guide-f3d1abe6fe8d)
 Ensures that a class has only one instance and provides a global point of access to it.
 
-### 2. Factory Method Pattern
+### 2. [Factory Method Pattern](https://medium.com/@Neelesh-Janga/factory-pattern-in-java-a-creational-design-pattern-44bc1469d09e)
 Defines an interface for creating an object but lets subclasses alter the type of objects that will be created.
 
-### 3. Abstract Factory Pattern
+### 3. [Abstract Factory Pattern](https://medium.com/@Neelesh-Janga/abstract-factory-pattern-in-java-a-comprehensive-guide-560d9016a92b)
 Provides an interface for creating families of related or dependent objects without specifying their concrete classes.
 
 **Example:** A GUI library might have abstract factories for creating buttons, windows, and other GUI elements for different operating systems.
 
-### 4. Builder Pattern
+### 4. [Builder Pattern](https://medium.com/@Neelesh-Janga/builder-pattern-in-java-a-comprehensive-guide-6e262064b5f2)
 Separates the construction of a complex object from its representation, allowing the same construction process to create various representations.
 
-### 5. Prototype Pattern
+### 5. [Prototype Pattern](https://medium.com/@Neelesh-Janga/prototype-design-pattern-in-java-a-comprehensive-guide-445fa197b984)
 Creates new objects by copying an existing object, known as the prototype.
 
 ### 6. Object Pool Pattern
