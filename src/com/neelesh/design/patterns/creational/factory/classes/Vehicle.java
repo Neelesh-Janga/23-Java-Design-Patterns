@@ -1,6 +1,8 @@
 package com.neelesh.design.patterns.creational.factory.classes;
 
-public class Vehicle {
+public abstract class Vehicle {
 
     public Vehicle() {}
+
+    public abstract void drive();
 }
