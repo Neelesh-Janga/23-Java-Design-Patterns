@@ -1,31 +1,22 @@
 package com.neelesh.design.patterns.structural.adapter;
 
-import com.neelesh.design.patterns.structural.adapter.classes.English;
-import com.neelesh.design.patterns.structural.adapter.classes.Telugu;
-import com.neelesh.design.patterns.structural.adapter.exceptions.TranslationException;
-import com.neelesh.design.patterns.structural.adapter.translator.TeluguToEnglishTranslator;
+import com.neelesh.design.patterns.structural.adapter.components.Nokia;
+import com.neelesh.design.patterns.structural.adapter.components.Samsung;
+import com.neelesh.design.patterns.structural.adapter.translator.TouchPadAdapter;
 
 public class AdapterTest {
-
     public static void main(String[] args) {
+        Samsung galaxyS23 = new Samsung();
+        galaxyS23.setText("i am neelesh janga");
+        galaxyS23.interpretText();
 
-        try {
-            System.out.println("Example-1");
-            Telugu teluguContext = new Telugu("నమస్కారం");
-            System.out.println("Text in Telugu Language: " + teluguContext.getContent());
+        TouchPadAdapter adapter = new TouchPadAdapter(galaxyS23);
 
-            TeluguToEnglishTranslator translator = new TeluguToEnglishTranslator(teluguContext);
+        Nokia nokia5210 = adapter.interpretKeystrokes();
+        nokia5210.interpretKeystrokes();
 
-            English englishContext = translator.translateToEnglish();
-            System.out.println("Text Translated to English: " + englishContext.getContent());
-
-            System.out.println("\nExample-2");
-            teluguContext.setContent("ధన్యవాదాలు");
-            System.out.println("Text in Telugu Language: " + teluguContext.getContent());
-            englishContext = translator.translateToEnglish();
-            System.out.println("Text Translated to English: " + englishContext.getContent());
-        }catch (TranslationException t){
-            System.out.println(t.getMessage());
-        }
+        galaxyS23.setText("i am 23 years old");
+        nokia5210 = adapter.interpretKeystrokes();
+        nokia5210.interpretKeystrokes();
     }
 }
