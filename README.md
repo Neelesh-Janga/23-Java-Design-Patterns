@@ -23,7 +23,7 @@ Creates new objects by copying an existing object, known as the prototype.
 
 ## Structural Design Patterns
 
-### 6. Adapter Pattern
+### 6. [Adapter Pattern](https://medium.com/@Neelesh-Janga/adapter-pattern-in-java-a-structural-design-pattern-b3d227dcb6c9)
 Allows incompatible interfaces to work together by providing a wrapper that converts one interface to another.
 
 ### 7. Bridge Pattern
