@@ -26,7 +26,7 @@ Creates new objects by copying an existing object, known as the prototype.
 ### 6. [Adapter Pattern](https://medium.com/@Neelesh-Janga/adapter-pattern-in-java-a-structural-design-pattern-b3d227dcb6c9)
 Allows incompatible interfaces to work together by providing a wrapper that converts one interface to another.
 
-### 7. Bridge Pattern
+### 7. [Bridge Pattern](https://medium.com/@Neelesh-Janga/bridge-pattern-in-java-a-structural-design-pattern-07dab3fb0ead)
 Decouples an abstraction from its implementation so that the two can vary independently.
 
 **Example:** The bridge pattern can be used in drawing applications where you have shape classes and drawing classes. The shape classes act as abstraction, and drawing classes act as an implementation.
