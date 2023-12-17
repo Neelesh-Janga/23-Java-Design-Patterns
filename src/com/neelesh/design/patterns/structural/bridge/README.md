@@ -1,3 +1,4 @@
+Published articles on <a href = "https://medium.com/@Neelesh-Janga/bridge-pattern-in-java-a-structural-design-pattern-07dab3fb0ead">Medium</a> and <a href = "https://www.linkedin.com/pulse/bridge-pattern-java-structural-design-neelesh-janga-60qqc%3FtrackingId=Vrrv9VfwRLeMf7qM5h5bww%253D%253D/?trackingId=Vrrv9VfwRLeMf7qM5h5bww%3D%3D">LinkedIn</a><hr>
 
 ## Bridge Pattern in Java: A Structural Design Pattern
 
